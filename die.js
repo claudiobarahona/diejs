@@ -33,7 +33,7 @@ if (typeof dieunah == 'undefined')
 var dieunah = new function() {
 	this.nUnidades=0;
 	this.nExamenes=0;
-	this.urlRoot="http://localhost/moodle";
+	this.urlRoot="";
 	this.lista=[];
 	this.dias=["Dom","Lun", "Mar","Mié","Jue","Vie","Sab"];
 	this.meses=["Ene", "Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
@@ -59,7 +59,7 @@ var dieunah = new function() {
 	};
     this.lista_actividades = function () {
 	var preSubURL=String(window.location.href.match(/.*file.php/));
-	//parent.urlRoot=preSubURL.substring(0,preSubURL.length-9);
+	parent.urlRoot=preSubURL.substring(0,preSubURL.length-9);
         $.get(parent.urlRoot+"/course/view.php?id="+parent.idCurso+"&parametroDEGT=quitar",function(data,status){
         			var RegExpPatt=new RegExp("id=([0-9]+)");
 					if(status=="error") 
