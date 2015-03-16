@@ -1,4 +1,4 @@
-////DIEUNAH ver m27.20150303-10:46am
+﻿////DIEUNAH ver m27.20150303-10:46am
 //UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS
 //DIRECCIÓN DE INNOVACIÓN EDUCATIVA
 //CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES 
@@ -29,10 +29,11 @@
 String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g,"");
 };
+if (typeof dieunah == 'undefined')
 var dieunah = new function() {
 	this.nUnidades=0;
 	this.nExamenes=0;
-	this.urlRoot="";
+	this.urlRoot="http://localhost/moodle";
 	this.lista=[];
 	this.dias=["Dom","Lun", "Mar","Mié","Jue","Vie","Sab"];
 	this.meses=["Ene", "Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
@@ -58,7 +59,7 @@ var dieunah = new function() {
 	};
     this.lista_actividades = function () {
 	var preSubURL=String(window.location.href.match(/.*file.php/));
-	parent.urlRoot=preSubURL.substring(0,preSubURL.length-9);
+	//parent.urlRoot=preSubURL.substring(0,preSubURL.length-9);
         $.get(parent.urlRoot+"/course/view.php?id="+parent.idCurso+"&parametroDEGT=quitar",function(data,status){
         			var RegExpPatt=new RegExp("id=([0-9]+)");
 					if(status=="error") 
@@ -491,4 +492,3 @@ var dieunah = new function() {
 	
 	
 };
-
