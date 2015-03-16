@@ -1,0 +1,50 @@
+@charset "utf-8";
+.tabla_calendario {
+	background-color: #F0E8DB;
+	color:#000;
+}
+.tabla_calendario .titulo td{
+	background-color:#36C;
+	color:#FFF;
+}
+.tabla_calendario * td.unidad_par{
+	border-bottom:solid #000 thin;
+	border-right:solid #000 thin;
+	border-left:solid #000 thin;
+
+}
+.tabla_calendario * td.unidad_impar{
+	background-color:#D7CFBF;
+	border-bottom:solid #000 thin;
+	border-right:solid #000 thin;
+	border-left:solid #000 thin;
+
+}
+.tabla_calendario * tr.impar td{
+	background-color:#D7CFBF;
+	border-bottom:solid #000 thin;
+
+}
+.tabla_calendario * tr.par td{
+	border-bottom:solid #000 thin;
+}
+
+.tabla_calendario * tr td.tema_par,.tabla_calendario * tr td.tema_impar{
+	border-right:solid #000 thin;
+}
+.tabla_calendario * tr.examen td{
+	background-color:#D7CFBF;
+	border-bottom:solid #000 thin;
+}
+.tabla_calendario * tr.examen td.exa_tit{
+	border-left:solid #000 thin;
+}
+.tabla_calendario * span.dia{
+	font-size: 80%;
+}
+.tabla_calendario * span.agno{
+	font-size: 80%;
+}
+.tabla_calendario * span.hora{
+	font-size: 80%;
+}
