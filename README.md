@@ -5,18 +5,19 @@ ver m27.20150303-10:46am
 
 <http://die.unah.edu.hn>
 
-## Requisitos
+## Utilización
+###Utilizar jQuery y plugins adicionales
+
+Previo, es necesario la utilización de las siguientes librerias
  1. jquery, <https://jquery.com/>
  2. plugin para jquery colorbox <http://www.jacklmoore.com/colorbox/>
  3. plugin para jquery blockIU <http://malsup.com/jquery/block/>
-
-## Utilización
-###Utilizar jQuery y plugins adicionales
 
 ```html
 <script src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
 <script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
+<script src="//cdn.jsdelivr.net/diejs/latest/die.js"></script>
 ```
 
 ###Inicializar diejs
@@ -51,6 +52,7 @@ function RevisarLectura() {
             <script src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
             <script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
             <script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
+            <script src="//cdn.jsdelivr.net/diejs/latest/die.js"></script>
             <script>
                 var revisarLecturaLista = setInterval(function () {RevisarLectura()}, 500);
                 $(document).ready(function() {
