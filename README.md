@@ -1,20 +1,48 @@
 # diejs
+ver m27.20150303-10:46am
 
 **die.js** permite obtener información con respecto a la esctructura de una clase en Moodle 2.7 y poder elaborar un calendario resumido con todas las actividades a nivel de html
 
 <http://die.unah.edu.hn>
 
-DIEUNAH ver m27.20150303-10:46am<br>
-UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS<br>
-DIRECCIÓN DE INNOVACIÓN EDUCATIVA<br>
-CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES<br>
-NOVIEMBRE 2014<br>
 ## Requisitos
  1. jquery, <https://jquery.com/>
  2. plugin para jquery colorbox <http://www.jacklmoore.com/colorbox/>
  3. plugin para jquery blockIU <http://malsup.com/jquery/block/>
 
 ## Utilización
+###Utilizar jQuery y plugins adicionales
+
+```html
+<script src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
+<script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
+```
+
+###Inicializar diejs
+El usuario no debe interactual con la página hasta que cargue la información primordial, por lo que se bloquea hasta que esto suceda
+
+```js
+<script>
+$(document).ready(function() {
+   dieunah.bloquear_pantalla();
+});
+</script>
+```
+###Inicializar el calendario
+La lectura de fechas y puntuaciones de actividades es un poco lenta, por lo que se permite que el usuario interactue con la página y se muestre el contenido hasta que este este completo
+```js
+<script>
+function RevisarLectura() {
+   if(parent.dieunah.CalendarizacionLista()){
+      $("#calendario").html(parent.dieunah.GenerarCalendario());
+         clearInterval(revisarLecturaLista);
+      };
+   };
+</script>
+```
+## Ejemplo
+
 ```js
     <!DOCTYPE html>
     <html lang="en">
@@ -60,3 +88,8 @@ Requisitos de la clase moodle leida:
 ## Copyright
 
 © [die.unah.edu.hn][], 2015
+
+DIEUNAH<br>
+UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS<br>
+DIRECCIÓN DE INNOVACIÓN EDUCATIVA<br>
+CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES<br>
