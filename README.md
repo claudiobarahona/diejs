@@ -24,18 +24,26 @@ NOVIEMBRE 2014<br>
             <script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
             <script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
             <script>
+                var revisarLecturaLista = setInterval(function () {RevisarLectura()}, 500);
+                $(document).ready(function() {
+                    dieunah.bloquear_pantalla();
+                });
+                function RevisarLectura() {
+                   if(parent.dieunah.CalendarizacionLista()){
+                       $("#calendario").html(parent.dieunah.GenerarCalendario());
+                       clearInterval(revisarLecturaLista);
+                   };
+                };
             </script>
         </head>
         <body>
             <div id="titulo"><h1>Calendario</h1></div>
-            <div id="calendario"><table align="center"><tr><td align="center">Cargando...<br><img src="js/ajax-loader.gif"/></td></tr></table></div>
+            <div id="calendario"><table align="center"><tr><td align="center">Cargando...</td></tr></table></div>
         </body>
     </html>
 
-## Copyright
 
-© [die.unah.edu.hn][], 2015
-
+## Notas Adicionales
 
 Requisitos de la clase moodle leida:
  1. Ninguna actividad debe estar en la sección 0 de moodle
@@ -49,4 +57,6 @@ Requisitos de la clase moodle leida:
  9. plugin para jquery colorbox
  10. plugin para jquery blockIU
 
- Script para Moodle 2.7
+## Copyright
+
+© [die.unah.edu.hn][], 2015
