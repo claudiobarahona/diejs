@@ -1,19 +1,42 @@
-DIEUNAH ver m27.20150303-10:46am
+# diejs
 
-UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS
+**die.js** permite obtener información con respecto a la esctructura de una clase en Moodle 2.7 y poder elaborar un calendario resumido con todas las actividades a nivel de html
 
-DIRECCIÓN DE INNOVACIÓN EDUCATIVA
+<http://die.unah.edu.hn>
 
-CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES
+DIEUNAH ver m27.20150303-10:46am<br>
+UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS<br>
+DIRECCIÓN DE INNOVACIÓN EDUCATIVA<br>
+CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES<br>
+NOVIEMBRE 2014<br>
+## Requisitos
+ 1. jquery, <https://jquery.com/>
+ 2. plugin para jquery colorbox <http://www.jacklmoore.com/colorbox/>
+ 3. plugin para jquery blockIU <http://malsup.com/jquery/block/>
 
-NOVIEMBRE 2014
+## Utilización
 
- Script para detectar las actividades de una clase e incorporrarlo directamente en el html de las clases Totalmente en Línea
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <script src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+            <script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
+            <script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
+            <script>
+            </script>
+        </head>
+        <body>
+            <div id="titulo"><h1>Calendario</h1></div>
+            <div id="calendario"><table align="center"><tr><td align="center">Cargando...<br><img src="js/ajax-loader.gif"/></td></tr></table></div>
+        </body>
+    </html>
 
-Requisitos para funcionamiento de este plugin:
- 1. jquery
- 2. plugin para jquery colorbox
- 3. plugin para jquery blockIU
+## Copyright
+
+© [englishextra.github.com][], 2015
+
+  [englishextra.github.com]: http://englishextra.github.com/
 
 Requisitos de la clase moodle leida:
  1. Ninguna actividad debe estar en la sección 0 de moodle
