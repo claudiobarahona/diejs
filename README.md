@@ -34,9 +34,8 @@ NOVIEMBRE 2014<br>
 
 ## Copyright
 
-© [englishextra.github.com][], 2015
+© [die.unah.edu.hn][], 2015
 
-  [englishextra.github.com]: http://englishextra.github.com/
 
 Requisitos de la clase moodle leida:
  1. Ninguna actividad debe estar en la sección 0 de moodle
