@@ -14,10 +14,10 @@ Previo, es necesario la utilización de las siguientes librerias
  3. plugin para jquery blockIU <http://malsup.com/jquery/block/>
 
 ```html
-<script src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
-<script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
-<script src="//cdn.jsdelivr.net/diejs/latest/die.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.colorbox-min.js"></script>
+<script src="js/jquery.blockUI.min.js"></script>
+<script src="js/die.js"></script>
 ```
 
 ###Inicializar diejs
@@ -49,10 +49,10 @@ function RevisarLectura() {
     <html lang="en">
         <head>
             <meta charset="utf-8" />
-            <script src="//cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-            <script src="//cdn.jsdelivr.net/colorbox/latest/jquery.colorbox-min.js"></script>
-            <script src="//cdn.jsdelivr.net/jquery.blockui/latest/jquery.blockUI.min.js"></script>
-            <script src="//cdn.jsdelivr.net/diejs/latest/die.js"></script>
+            <script src="js/jquery.min.js"></script>
+            <script src="js/jquery.colorbox-min.js"></script>
+            <script src="js/jquery.blockUI.min.js"></script>
+            <script src="js/die.js"></script>
             <script>
                 var revisarLecturaLista = setInterval(function () {RevisarLectura()}, 500);
                 $(document).ready(function() {
