@@ -1,8 +1,13 @@
 DIEUNAH ver m27.20150303-10:46am
+
 UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS
+
 DIRECCIÓN DE INNOVACIÓN EDUCATIVA
+
 CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES
+
 NOVIEMBRE 2014
+
  Script para detectar las actividades de una clase e incorporrarlo directamente en el html de las clases Totalmente en Línea
 
 Requisitos para funcionamiento de este plugin:
