@@ -15,7 +15,7 @@ NOVIEMBRE 2014<br>
  3. plugin para jquery blockIU <http://malsup.com/jquery/block/>
 
 ## Utilización
-
+```js
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -41,7 +41,7 @@ NOVIEMBRE 2014<br>
             <div id="calendario"><table align="center"><tr><td align="center">Cargando...</td></tr></table></div>
         </body>
     </html>
-
+```
 
 ## Notas Adicionales
 
