@@ -28,6 +28,13 @@
 .tabla_calendario * tr.par td{
 	border-bottom:solid #000 thin;
 }
+.tabla_calendario * tr.impar td table td{
+	border-bottom: none;
+
+}
+.tabla_calendario * tr.par td table td{
+	border-bottom: none;
+}
 
 .tabla_calendario * tr td.tema_par,.tabla_calendario * tr td.tema_impar{
 	border-right:solid #000 thin;
@@ -36,8 +43,25 @@
 	background-color:#D7CFBF;
 	border-bottom:solid #000 thin;
 }
+.tabla_calendario * tr.examen td table td{
+	border-bottom:none;
+}
 .tabla_calendario * tr.examen td.exa_tit{
 	border-left:solid #000 thin;
+}
+.tabla_calendario * .rotuloini{
+    text-align: center;
+    font-size: 80%;
+}
+.tabla_calendario * .rotulofin{
+    text-align: center;
+    font-size: 80%;
+}
+.tabla_calendario * .rotuloini.des{
+    color:#778899;
+}
+.tabla_calendario * .rotulofin.des{
+    color:#778899;
 }
 .tabla_calendario * span.dia{
 	font-size: 80%;
@@ -47,4 +71,14 @@
 }
 .tabla_calendario * span.hora{
 	font-size: 80%;
+}
+input[class$=oculto] {
+  background:lightgray;
+  color:black;
+  cursor:default;
+}
+input[class$=visible] {
+  background:white;
+  color:black;
+  cursor:default;
 }
