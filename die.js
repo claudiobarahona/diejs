@@ -64,7 +64,6 @@ var dieunah = new function() {
             opacity: .5, 
             color: '#fff' 
         },message: msg });
-        alert("Hola");
     };
     this.lista_actividades = function () {
 	var preSubURL=String(window.location.href.match(/.*file.php/));
