@@ -1,4 +1,4 @@
-////DIEUNAH ver m27.20150426-04:29pm
+////DIEUNAH ver m27.20151912-5:22pm
 //UNIVERSIDAD NACIONAL AUTÓNOMA DE HONDURAS
 //DIRECCIÓN DE INNOVACIÓN EDUCATIVA
 //CREADO POR: CLAUDIO ANIBAL BARAHONA FLORES 
@@ -34,6 +34,7 @@ var dieunah = new function() {
     this.nUnidades=0;
     this.nExamenes=0;
     this.urlRoot="";
+	this.bUsarColorBox=true;
     //this.urlRoot="http://localhost/moodle";
     this.lista=[];
     this.dias=["Dom","Lun", "Mar","Mié","Jue","Vie","Sab"];
@@ -52,7 +53,8 @@ var dieunah = new function() {
     //Esta función debe ser llamada antes que todas las otras
     //Ej: lista_actividades()
     this.bloquear_pantalla=function(msg){
-        if(msg==undefined) msg="Por favor espere...";
+		if(msg=="noColorBox"){parent.bUsarColorBox=false};
+        if(msg==undefined || msg=="noColorBox") msg="Por favor espere...";
         $.blockUI({ css: { 
             border: 'none', 
             padding: '15px', 
@@ -100,16 +102,19 @@ var dieunah = new function() {
                 var nActividadActual=1;
                 $('li',this).each(function(){//Buscando los elementos dentro del la sección (Unidad)
                     if($('.contentwithoutlink ',this).length == 0 && $('a.dimmed',this).length==0 ){//Incluir los elem solo si son elementos de actividad o recurso (no etiquetas) //REGLA 8
-                        var key="u"+parent.nUnidades+"t"+nTemaActual+"a"+nActividadActual;							
-                        if($('a:contains("_noact")',this).length==0){//Evitar que una actividad especifica visible no sea tomada en cuenta
+                        var key="u"+parent.nUnidades+"t"+nTemaActual+"a"+nActividadActual;
+                        if($('a:contains("_noact")',this).length==0&&$('a:contains("_nocal")',this).length==0){//_nocal para que una actividad especifica visible no sea tomada en cuenta
                             var tipoMod=RegExpTipomod.exec($('a',this).attr('href'));
-                            if($('a:contains("Examen")',this).length==0 && $('a:contains("Recupera")',this).length==0 && $('a:contains("Repos")',this).length==0){
+                            if($('a:contains("Examen")',this).length==0 && $('a:contains("Recupera")',this).length==0 && $('a:contains("Repos")',this).length==0 && $('a',this).length>0){
                                 nActividadActual++;
                                 parent.lista.push({ id:key, modID : RegExpPatt.exec($('a',this).attr('href'))[1],modTipo:tipoMod[1], titulo: $(this).text().trim(), url:$('a',this).attr('href'),puntos:0,fInicio:0,fFinal:0});
-                            }else{
+                            }else if ($('a',this).length>0){
                                 parent.nExamenes++;
                                 parent.lista.push({ id:'u0t0a0_e'+parent.nExamenes, modID : RegExpPatt.exec($('a',this).attr('href'))[1],modTipo:tipoMod[1], titulo: $(this).text().trim(), url:$('a',this).attr('href'),puntos:0,fInicio:0,fFinal:0});
-                            }
+                            }else{//si es actividad visible pero desahabilitada por algun condicional
+							    nActividadActual++;
+								parent.lista.push({ id:key, modID : 0,modTipo:0, titulo: $(this).text().trim(), url:"#",puntos:"Esta actividad tienen condiciones",fInicio:0,fFinal:0});
+							}
                         }
                     }else if($('.contentwithoutlink ',this).length > 0 && $('a.dimmed',this).length==0 ){
                         nTemaActual=parseInt($(this).text().match(/\d+/)[0]);
@@ -171,13 +176,18 @@ var dieunah = new function() {
             var reID=new RegExp("id=([0-9]+)");
             var m;
             $("th[class*='item']",data).each(function(){
-                var idMOD=reID.exec($("a",this).attr("href"));
-                $("td[headers$='"+$(this).attr("id")+" range']",data).each(function(){
-                    var stri=$(this).text();
-                    m = re.exec(stri);
-                    var idEnLista=parent.actividad_por_modID(idMOD[1]);
-                    if (idEnLista!=false) parent.lista[idEnLista]["puntos"]=m[1];
-                });
+				if($('a',this).length>0){
+					var idMOD=reID.exec($("a",this).attr("href"));
+					$("td[headers$='"+$(this).attr("id")+" range']",data).each(function(){
+						var stri=$(this).text();
+						m = re.exec(stri);
+						var idEnLista=parent.actividad_por_modID(idMOD[1]);
+						if(m!=null)
+							if (idEnLista!=false) parent.lista[idEnLista]["puntos"]=m[1];
+						else 
+							if (idEnLista!=false) parent.lista[idEnLista]["puntos"]="no se califica";
+					});
+				}
             });
             parent.yaCalendarizado.pop();
         },"html");
@@ -242,22 +252,26 @@ var dieunah = new function() {
             });
 	  //COMENZANDO CON EL SEGUNDO CASO: Si el reporte de fechas esta en modo SOLO LECTURA
 	    if(!parent.puedeEditar){
-                var re = /id_date_mod_(\d+)_(\w+)_(day|month|year|hour|minute)">[^<]+<\/label>(\d+|\w+)/gi; 
-                var re_enabled = /checked="checked"/i 
+                var re = /id_date_mod_(\d+)_(\w+)_(day|month|year|hour|minute)\">[^<]+<\/label>(\d+|\w+)/gi; 
+				var re_dia = /id_date_mod_(\d*)_(\w*)_(day)\">[^<]*<\/label>(\d*|\w*)/i;
+                var re_enabled = /checked="checked"/i;
                 $('div[class^=felement]',data).each(function(){
                     var enabled=re_enabled.exec($(this).html());
                     var fecha=new Date();
                     var idMOD=0;
                     var strTipoAcción="";
+					var m2=re_dia.exec($(this).html());
+					if(m2 != null)
+						fecha.setDate(m2[4]);
                     while ((m = re.exec($(this).html())) != null) {
                         if (m.index === re.lastIndex) {
                             re.lastIndex++;
                         }
                         idMOD=m[1];
                         strTipoAcción=m[2];
-                        if(!enabled && !(strTipoAcción=="assesstimestart" || strTipoAcción=="assesstimefinish"))//Si la casilla de habilitado no esta marcada, entonces esta fecha no porcesarla, hay que ingnorarla
+                        if(!enabled && !(strTipoAcción=="assesstimestart" || strTipoAcción=="assesstimefinish"))//Si la casilla de habilitado no esta marcada, entonces esta fecha no procesarla, hay que ingnorarla
                             return true;
-                        switch(m[3]){
+						switch(m[3]){
                             case "day":
                                 fecha.setDate(m[4]);
                                 break;
@@ -354,9 +368,12 @@ var dieunah = new function() {
 		var actividad=this.actividad_por_id(id);
 		var sHTML="";
 		if(actividad==false){
-                    sHTML="ERROR: "+id+" actividad no presente";
+        	sHTML="ERROR: "+id+" actividad no presente";
 		}else{
-                    sHTML="<a href='#' onClick='parent.$.colorbox({href:\""+actividad.url+"\",width:\"95%\", height:\"95%\", iframe:true}); return false;'>"+actividad.titulo+"</a>";
+			if(this.bUsarColorBox)
+	            sHTML="<a href='#' onClick='parent.$.colorbox({href:\""+actividad.url+"\",width:\"95%\", height:\"95%\", iframe:true}); return false;'>"+actividad.titulo+"</a>";
+			else
+				sHTML="<a href='"+actividad.url+"' >"+actividad.titulo+"</a>";
 		}
 		return sHTML;
 	};
@@ -377,24 +394,19 @@ var dieunah = new function() {
             else
                 return sublista;
 	};
-	this.LimpiarActividadMoodle = function(){
-            //Moodle 27 normal
-            $( ".cboxIframe" ).contents().find("#page-header").css("display", "none" );
-            $( ".cboxIframe" ).contents().find(".navbar-inner").css("display", "none" );
-            $( ".cboxIframe" ).contents().find("#block-region-side-pre").css("display", "none" );
-            $( ".cboxIframe" ).contents().find("#block-region-side-post").css("display", "none" );
-            $( ".cboxIframe" ).contents().find("#region-main").css("width", "100%" );
-            $( ".cboxIframe" ).contents().find("#page-footer").css("display", "none" );
-
+	this.LimpiarActividadMoodle = function(strFrame){
+           
             //Moodle 27 CampusVirtual UNAH
-            $( ".cboxIframe" ).contents().find("footer").css("display", "none" );
-            $( ".cboxIframe" ).contents().find(".content-header").css("display", "none" );
-            $( ".cboxIframe" ).contents().find(".navbar navbar-default navbar-fixed-top").css("display", "none" );
-            $( ".cboxIframe" ).contents().find("#main-container").css("margin-left", "0px" );
-            $( ".cboxIframe" ).contents().find("#sidebar").css("display", "none" );
-            $( ".cboxIframe" ).contents().find(".col-md-4").css("display", "none" );
-            $( ".cboxIframe" ).contents().find(".breadcrumb breadcrumb-top").css("display", "none" );
-		
+			$( strFrame ).contents().find(".topbar").css("display", "none" );
+			$( strFrame ).contents().find(".side-menu").css("display", "none" );
+			$( strFrame ).contents().find(".block-region").css("display", "none" );
+            $( strFrame ).contents().find("footer").css("display", "none" );
+            //$( ".cboxIframe" ).contents().find(".content-header").css("display", "none" );
+            //$( ".cboxIframe" ).contents().find(".navbar navbar-default navbar-fixed-top").css("display", "none" );
+            //$( ".cboxIframe" ).contents().find("#main-container").css("margin-left", "0px" );
+            //$( ".cboxIframe" ).contents().find("#sidebar").css("display", "none" );
+            //$( ".cboxIframe" ).contents().find(".col-md-4").css("display", "none" );
+            //$( ".cboxIframe" ).contents().find(".breadcrumb breadcrumb-top").css("display", "none" );
 	}
 	//******************* Actividades por unidad y tema ********************
 	//Devuelve un html enlazando a las actividades del tema y unidad solicitados
@@ -411,14 +423,20 @@ var dieunah = new function() {
             else{
                 //html+="<table border='0' align='center' cellpadding='10' cellspacing='10' class='tablactividades'>";
                 for(i=0;i<actividades.length;i++){
-                    html+="<tr><td><a href='#' onClick='parent.$.colorbox({href:\""+actividades[i].url+"\",width:\"95%\", height:\"95%\", iframe:true,onComplete:function(){ parent.$( \".cboxIframe\" ).load(function(){parent.dieunah.LimpiarActividadMoodle(\".cboxIframe\")});}});return false;'>";
+					if(this.bUsarColorBox)
+                    	html+="<tr><td><a href='#' onClick='parent.$.colorbox({href:\""+actividades[i].url+"\",width:\"95%\", height:\"95%\", iframe:true,onComplete:function(){ parent.$( \".cboxIframe\" ).load(function(){parent.dieunah.LimpiarActividadMoodle(\".cboxIframe\")});}});return false;'>";
+					else
+						html+="<tr><td><a href='"+actividades[i].url+"'>";
                     html+=actividades[i].titulo;
                     html+="</a></td></tr>";
                 }
             }
             if(arrParametro.length>0)
                 for(j=0;j<arrParametro.length;j++){
-                    html+="<tr><td><a href='#' onClick='parent.$.colorbox({href:\"../unidad_"+nUnidad+"/t"+nTema+"_autoevaluacion"+(j+1)+".html\",width:\"95%\", height:\"95%\", iframe:true}); return false;'>";
+					if(this.bUsarColorBox)
+                    	html+="<tr><td><a href='#' onClick='parent.$.colorbox({href:\"../unidad_"+nUnidad+"/t"+nTema+"_autoevaluacion"+(j+1)+".html\",width:\"95%\", height:\"95%\", iframe:true}); return false;'>";
+					else
+						html+="<tr><td><a href='t"+nTema+"_autoevaluacion"+(j+1)+".html'>";
                     html+=arrParametro[j];
                     html+="</a></td></tr>";
                 }
